@@ -1,0 +1,52 @@
+<ng-container>
+    <nav class="cs-page-header">
+        <div>
+            <div class="navbar-default">
+                <ul>
+                    <app-control-up-button></app-control-up-button>
+                    <li>
+                        <!-- *ngIf="authorizationService.user$ | async" -->
+                        <button [routerLink]="[ '-1' ]" class="cs-button" aria-current="page">Add an additional
+                            storagebox</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cs-card error" *ngIf="errorMessage">
+        <div class="cs-heading h1">Something went wrong...</div>
+        <p>{{errorMessage}}</p>
+    </div>
+
+    <div class="cs-card" *ngIf="storageboxes && storageboxes.length >= 1; else nostorageboxes">
+        <div class="storageboxes-list">
+            @for (storagebox of storageboxes; track storagebox) {
+            <div class="storagebox-entry" [routerLink]="[ storagebox.id ]">
+                <div class="name">{{storagebox.name}}</div>
+                <div class="image">
+                    <img *ngIf="storagebox.photo; else nophoto" [attr.src]="storagebox.photo">
+                    <ng-template #nophoto>
+                        <div class="nophoto">No photo</div>
+                    </ng-template>
+                </div>
+                <table class="w-full">
+                    <tr class="info">
+                        <td class="label">Dessicant:</td>
+                        <td>{{storagebox.lastDessicantChange}}</td>
+                    </tr>
+                </table>
+            </div>
+            }
+        </div>
+    </div>
+
+    <ng-template #nostorageboxes>
+        <div class="cs-card">
+            <p>You did not register any storageboxes yet. Click <a [routerLink]="['-1']">here</a> to add your first roll
+                of
+                storagebox.</p>
+        </div>
+    </ng-template>
+
+</ng-container>

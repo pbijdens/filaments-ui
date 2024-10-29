@@ -1,0 +1,29 @@
+.storageboxes-list {
+    @apply flex flex-row flex-wrap w-full;
+
+    .storagebox-entry {
+        @apply shadow p-2 bg-white cursor-pointer;
+
+        .description {
+            @apply w-full p-1 font-bold;
+        }
+
+        .image {
+            width: 256px;
+            height: 256px;
+            max-width: 256px;
+            max-height: 256px;
+            @apply bg-slate-800 content-center;
+        }
+
+        .nophoto {
+            @apply text-white;
+        }
+
+        .info {
+            .label {
+                @apply font-bold;
+            }
+        }
+    }
+}

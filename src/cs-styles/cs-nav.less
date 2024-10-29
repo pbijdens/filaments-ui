@@ -1,0 +1,76 @@
+nav.cs-application-header {
+  @apply bg-accenta text-accentafg;
+
+  >div {
+    @apply
+    /* max-w-screen-xl */
+    flex flex-wrap items-center justify-between mx-auto p-2;
+
+    div.navbar-default {
+      @apply w-full block w-auto;
+
+      >ul {
+        @apply flex flex-row;
+        @apply p-0 space-x-0;
+        @apply border-0;
+        @apply font-medium;
+        @apply rtl:space-x-reverse;
+
+        li {
+          a.top-link {
+            @apply hover:text-accentafg-700 cursor-pointer mx-4;
+          }
+        }
+      }
+    }
+
+    a.logo {
+      @apply flex items-center space-x-3 rtl:space-x-reverse m-2;
+
+      >div {
+        @apply flex h-12 w-12 justify-center items-center rounded-full bg-transparent;
+      }
+
+      >span {
+        @apply self-center text-2xl font-semibold whitespace-nowrap;
+      }
+    }
+  }
+
+  @media print {
+    @apply bg-transparent;
+    @apply text-black; // print can use hardcoded black and white colors
+
+    .navbar-title {
+      @apply text-2xl;
+    }
+
+    .navbar-default {
+      @apply collapse max-h-0;
+    }
+  }
+}
+
+nav.cs-page-header {
+  @apply bg-accentb text-accentbfg;
+
+  >div {
+    @apply flex flex-wrap items-center justify-between mx-auto p-2;
+
+    div.navbar-default {
+      @apply w-full block w-auto;
+
+      >ul {
+        @apply flex flex-row;
+        @apply p-0 space-x-0;
+        @apply border-0;
+        @apply font-medium bg-transparent border-transparent;
+        @apply rtl:space-x-reverse;
+      }
+    }
+  }
+
+  @media print {
+    @apply hidden collapse;
+  }
+}

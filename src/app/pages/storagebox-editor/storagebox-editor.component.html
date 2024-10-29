@@ -1,0 +1,76 @@
+<ng-container>
+    <nav class="cs-page-header w-full">
+        <div>
+            <div class="navbar-default">
+                <ul>
+                    <app-control-up-button></app-control-up-button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cs-card error" *ngIf="errorMessage">
+        <div class="cs-heading h1">Something went wrong...</div>
+        <p>{{errorMessage}}</p>
+    </div>
+
+    <div class="cs-card" *ngIf="photoUri">
+        <img class="storagebox-photo" [attr.src]="photoUri">
+    </div>
+
+    <div class="cs-card" *ngIf="storagebox && storagebox.id >= 0">
+        <form>
+            <label for="photo">
+                Upload a new photo
+            </label>
+            <input class="cs-input-text" id="photo" type="file" autocomplete="off" spellcheck="false" autocorrect="off"
+                autocapitalize="off" placeholder="Upload a photo" (change)="onUploadFile($event)">
+        </form>
+    </div>
+
+    <div class="cs-card" *ngIf="storagebox && storagebox.id < 0">
+        <p>You must save the storagebox once before you can upload a photo.</p>
+    </div>
+
+    <div class="cs-card" *ngIf="storagebox; else noStoragebox">
+        <form class="storagebox-form" id="storagebox-form">
+            <div class="fields">
+                <div class="cs-input-block">
+                    <label for="description">
+                        Description
+                    </label>
+                    <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="description" type="text"
+                        autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                        placeholder="Description" [(ngModel)]="storagebox.name">
+                </div>
+
+                <div class="cs-input-block">
+                    <label for="lastDessicantChange">
+                        Last desiccant change
+                    </label>
+                    <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="lastDessicantChange"
+                        type="date" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                        placeholder="Last dessicant change" [(ngModel)]="storagebox.lastDessicantChange">
+                </div>
+                <div class="cs-input-block">
+                    <label for="notes">
+                        Notes
+                    </label>
+                    <textarea [ngModelOptions]="{standalone: true}" class="cs-input-text" id="notes" type="text"
+                        autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                        placeholder="Enter your notes" [(ngModel)]="storagebox.notes"></textarea>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="cs-button w-full" (click)="save()">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <ng-template #noStoragebox>
+        <div class="cs-card">
+            <p>The specified ID does not represent any currently registered storagebox.</p>
+        </div>
+    </ng-template>
+
+</ng-container>

@@ -1,0 +1,21 @@
+<nav class="cs-application-header">
+  <div>
+      <a [routerLink]="['/']" class="logo">
+          <div><img src="assets/logo.svg" alt="Logo" /></div>
+          <span class="navbar-title">{{title}}</span>
+      </a>
+      <div class="navbar-default">
+          <ul>
+
+              <li>
+                  <a [routerLink]="['/filament' ]" class="top-link" aria-current="page">Filament</a>
+              </li>
+              <li>
+                  <a [routerLink]="['/storagebox' ]" class="top-link" aria-current="page">Storageboxes</a>
+              </li>                
+              <app-loggedin-user></app-loggedin-user>
+          </ul>
+      </div>
+  </div>
+</nav>
+<div class="page"><router-outlet /></div>

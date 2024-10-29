@@ -1,0 +1,166 @@
+<ng-container>
+    <nav class="cs-page-header w-full">
+        <div>
+            <div class="navbar-default">
+                <ul>
+                    <app-control-up-button></app-control-up-button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cs-card error" *ngIf="errorMessage">
+        <div class="cs-heading h1">Something went wrong...</div>
+        <p>{{errorMessage}}</p>
+    </div>
+
+    <div class="cs-card" *ngIf="photoUri">
+        <img class="filament-photo" [attr.src]="photoUri">
+    </div>
+
+    <div class="cs-card" *ngIf="filament && filament.id >= 0">
+        <form>
+            <label for="photo">
+                Upload a new photo
+            </label>
+            <input class="cs-input-text" id="photo" type="file" autocomplete="off" spellcheck="false" autocorrect="off"
+                autocapitalize="off" placeholder="Upload a photo" (change)="onUploadFile($event)">
+        </form>
+    </div>
+
+    <div class="cs-card" *ngIf="filament && filament.id < 0">
+        <p>You must save the filament once before you can upload a photo.</p>
+    </div>
+
+    <div class="cs-card" *ngIf="filament; else noFilament">
+        <form class="filament-form" id="filament-form">
+            <div class="fields">
+
+                <div class="cs-input-block">
+                    <label for="storageboxSelection">
+                        Current storage box
+                    </label>
+
+                    <input [ngModelOptions]="{standalone: true}" class="cs-input-text" list="id-storagebox"
+                        [(ngModel)]="filament.storageBoxName" value="{{filament.storagebox?.name ?? 'Select box'}}"
+                        (ngModelChange)="onChangeBox()" id="storageboxSelection">
+                    <datalist id="id-storagebox">
+                        <option *ngFor="let box of storageboxes" [value]="box.name">{{box.name}}</option>
+                    </datalist>
+                </div>
+
+                <div class="cs-input-block">
+                    <label for="description">
+                        Description
+                    </label>
+                    <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="description" type="text"
+                        autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                        placeholder="Description" [(ngModel)]="filament.description">
+                </div>
+
+                <div class="columns-1 md:columns-2">
+                    <div class="cs-input-block">
+                        <label for="weight">
+                            Current weight (g)
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="weight" type="number"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Current weight" [(ngModel)]="filament.weight">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="initialWeight">
+                            Initial weight (g)
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="initialWeight"
+                            type="number" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Initial weight" [(ngModel)]="filament.initialWeight">
+                    </div>
+                </div>
+                <div class="columns-1 md:columns-2">
+                    <div class="cs-input-block">
+                        <label for="color1">
+                            Color 1 <span class="cs-button small" (click)="filament.color1 = ''">Clear</span>
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text p-6 min-h-16" id="color1"
+                            type="color" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            [attr.placeholder]="filament.color1" [(ngModel)]="filament.color1">
+                        <div class="text-xs"><i>{{filament.color1}}</i></div>
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="color2">
+                            Color 2 <span class="cs-button small" (click)="filament.color2 = ''">Clear</span>
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text p-6 min-h-16" id="color1"
+                            type="color" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            [attr.placeholder]="filament.color2" [(ngModel)]="filament.color2">
+                        <div class="text-xs"><i>{{filament.color2}}</i></div>
+                    </div>
+                </div>
+
+                <div class="columns-1 md:columns-3">
+                    <div class="cs-input-block">
+                        <label for="brand">
+                            Brand
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="initialWeight"
+                            type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Brand" [(ngModel)]="filament.brand">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="kind">
+                            Kind
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="kind" type="text"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Current weight" [(ngModel)]="filament.kind">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="pricePerKG">
+                            Price per kg
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="pricePerKG" type="number"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Current weight" [(ngModel)]="filament.pricePerKG">
+                    </div>
+                </div>
+
+                <div class="columns-1 md:columns-2">
+                    <div class="cs-input-block">
+                        <label for="firstAdded">
+                            First added ({{filament.firstAdded}})
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="firstAdded" type="date"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Initial weight" [(ngModel)]="filament.firstAdded">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="lastUpdated">
+                            Last updated ({{filament.lastUpdated}})
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="lastUpdated" type="date"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Initial weight" [(ngModel)]="filament.lastUpdated">
+                    </div>
+                </div>
+                <div class="cs-input-block">
+                    <label for="notes">
+                        Notes
+                    </label>
+                    <textarea [ngModelOptions]="{standalone: true}" class="cs-input-text" id="notes" type="text"
+                        autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                        placeholder="Enter your notes" [(ngModel)]="filament.notes"></textarea>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="cs-button w-full" (click)="save()">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <ng-template #noFilament>
+        <div class="cs-card">
+            <p>The specified ID does not represent any currently registered roll of filament.</p>
+        </div>
+    </ng-template>
+
+</ng-container>

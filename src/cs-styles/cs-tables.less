@@ -1,0 +1,65 @@
+.cs-table {
+  @apply size-full border-collapse border border-transparent table-auto text-sm;
+
+  th {
+    @apply bg-accenta text-accentafg py-1;
+  }
+
+  tr {
+    @media screen {
+      @apply hover:bg-accentb-500 hover:text-accentbfg-500;
+    }
+
+    td {
+      @apply border-0 border-b border-accenta;
+      @apply py-0~"px-0.5";
+    }
+  }
+}
+
+
+.cs-results-table {
+  @apply size-full border-collapse border border-transparent table-auto;
+
+  th {
+    @apply bg-accenta text-accentafg py-1;
+
+    @media print {
+      @apply py-1; // ?
+    }
+  }
+
+  tr {
+    td {
+      @apply border-0 border-b border-accenta;
+      @apply py-0 px-1;
+
+      @media print {
+        @apply border-b border-accenta;
+      }
+    }
+  }
+
+  &.liveview {
+    th {
+      @apply text-xl;
+    }
+
+    tr {
+      td {
+        @apply py-0 px-1 py-1 text-xl;
+      }
+    }
+  }
+}
+
+.cs-results-subscript {
+  @apply text-xs italic;
+}
+
+@media print {
+  table tr {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+  }
+}

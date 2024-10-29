@@ -1,0 +1,39 @@
+.cs-card {
+  @apply bg-cardbg text-cardfg m-1 shadow-md rounded px-4 pt-4 pb-4;
+
+  &.error {
+    @apply bg-errorbg text-errorfg;
+  }
+
+  &.loading {
+    @apply m-16 bg-accentb text-accentbfg;
+  }
+
+  p {
+    @apply mb-4 mt-4;
+  }
+
+  .cs-input-block {
+    @apply mb-4;
+
+    label {
+      @apply block text-sm font-bold mb-2 text-labelfg;
+    }
+  }
+}
+
+.cs-heading {
+  @apply block text-lg font-bold mb-2;
+
+  &.h1 {
+    @apply text-2xl;
+  }
+
+  &.h2 {
+    @apply text-xl;
+  }
+
+  &.h3 {
+    @apply text-lg;
+  }
+}

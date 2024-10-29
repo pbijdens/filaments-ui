@@ -1,0 +1,56 @@
+<ng-container>
+    <nav class="cs-page-header">
+        <div>
+            <div class="navbar-default">
+                <ul>
+                    <app-control-up-button></app-control-up-button>
+                    <li>
+                        <!-- *ngIf="authorizationService.user$ | async" -->
+                        <button [routerLink]="[ '-1' ]" class="cs-button" aria-current="page">Add a roll of
+                            filament</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cs-card error" *ngIf="errorMessage">
+        <div class="cs-heading h1">Something went wrong...</div>
+        <p>{{errorMessage}}</p>
+    </div>
+
+    <div class="cs-card" *ngIf="filaments && filaments.length >= 1; else noFilaments">
+        <div class="filaments-list">
+            @for (filament of filaments; track filament) {
+                <div class="filament-entry" [routerLink]="[ filament.id ]">
+                    <div class="description">{{filament.description}}</div>
+                    <div class="image">
+                        <img *ngIf="filament.photo; else nophoto" [attr.src]="filament.photo">
+                        <ng-template #nophoto>
+                            <div class="nophoto">No photo</div>
+                        </ng-template>
+                    </div>
+                    <table class="w-full">
+                        <tr class="info" *ngIf="filament.storageBoxID >= 0"><td class="label">Location:</td><td>{{filament.storageBoxName}}</td></tr>
+                        <tr class="info"><td class="label">Brand:</td><td>{{filament.brand}}</td></tr>
+                        <tr class="info"><td class="label">Kind:</td><td>{{filament.kind}}</td></tr>
+                        <tr class="info"><td class="label">Remaining:</td><td>{{filament.weight}}g of {{filament.initialWeight}}g</td></tr>
+                        <tr class="info"><td class="label">Added:</td><td>{{filament.firstAdded}}</td></tr>
+                        <tr class="info"><td class="label">Updated:</td><td>{{filament.lastUpdated}}</td></tr>
+                        <tr class="info"><td class="label">Price:</td><td>€{{filament.pricePerKG}}</td></tr>
+                        <tr class="info" *ngIf="filament.color1"><td class="label">Color 1:</td><td><div class="color" [attr.style]="'background-color:'+filament.color1">&nbsp;</div></td></tr>
+                        <tr class="info" *ngIf="filament.color2"><td class="label">Color 2:</td><td><div class="color" [attr.style]="'background-color:'+filament.color2">&nbsp;</div></td></tr>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <ng-template #noFilaments>
+        <div class="cs-card">
+            <p>You did not register any filaments yet. Click <a [routerLink]="['-1']">here</a> to add your first roll of
+                filament.</p>
+        </div>
+    </ng-template>
+
+</ng-container>
