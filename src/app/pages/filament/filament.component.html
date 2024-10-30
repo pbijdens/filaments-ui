@@ -31,6 +31,7 @@
                         </ng-template>
                     </div>
                     <table class="w-full">
+                        <tr class="info"><td class="label">Roll number:</td><td>{{filament.id}}</td></tr>
                         <tr class="info" *ngIf="filament.storageBoxID >= 0"><td class="label">Container:</td><td>{{filament.storageBoxName}}</td></tr>
                         <tr class="info"><td class="label">Brand:</td><td>{{filament.brand}}</td></tr>
                         <tr class="info"><td class="label">Kind:</td><td>{{filament.kind}}</td></tr>

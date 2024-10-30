@@ -14,8 +14,10 @@ export class NavbarService {
   constructor() { }
 
   async setPageTitle(prefix: string) {
+    setTimeout(() => {
       // this.title$.next(`${prefix} - ${this.DefaultPageTitle}`);
       this.title$.next(`${prefix}`);
+    }, 5);
   }
 
 }

@@ -35,7 +35,7 @@ export class FilamentEditorComponent implements OnInit {
     delete this.errorMessage;
     try {
       const filamentId = this.activatedRoute.snapshot.params['filamentId'] as number;
-      this.storageboxes = [<StorageboxHeaderModel>{id: -1, name: 'Not selected'}, ...((await this.apiService.getStorageboxes()) ?? [])];
+      this.storageboxes = [<StorageboxHeaderModel>{ id: -1, name: 'Not selected' }, ...((await this.apiService.getStorageboxes()) ?? [])];
       if (filamentId > 0) {
         this.filament = await this.apiService.getFilament(`${filamentId}`);
         this.photoUri = await this.apiService.getFilamentPhotoUri(`${filamentId}`);
@@ -62,11 +62,22 @@ export class FilamentEditorComponent implements OnInit {
       return;
     }
     if (this.filament.id < 0) {
-      const result: FilamentDetailsModel = await this.apiService.createFilament(this.filament);
-      this.router.navigate(['filament', result.id]);
+      try {
+        const result: FilamentDetailsModel = await this.apiService.createFilament(this.filament);
+        await this.router.navigate(['filament', result.id]);
+        await this.refresh();
+      }
+      catch (err) {
+        this.errorMessage = `Failed to create new filament roll: ` + err;
+      }
     } else {
-      await this.apiService.updateFilament(this.filament);
-      await this.refresh();
+      try {
+        await this.apiService.updateFilament(this.filament);
+        await this.refresh();
+      }
+      catch (err) {
+        this.errorMessage = `Failed to update the filemanet data: ` + err;
+      }
     }
     window.scrollTo({ top: 0 });
   }
@@ -82,7 +93,7 @@ export class FilamentEditorComponent implements OnInit {
     }
   }
 
-  onChangeBox($event : any, value: any) {
+  onChangeBox($event: any, value: any) {
     if (this.filament) {
       let box = this.storageboxes.find((c) => c.id == this.filament?.storagebox?.id);
       if (box) {

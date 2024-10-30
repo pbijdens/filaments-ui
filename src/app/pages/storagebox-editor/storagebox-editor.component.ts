@@ -55,11 +55,22 @@ export class StorageboxEditorComponent implements OnInit {
       return;
     }
     if (this.storagebox.id < 0) {
-      const result: StorageboxDetailsModel = await this.apiService.createStoragebox(this.storagebox);
-      this.router.navigate(['storagebox', result.id]);
+      try {
+        const result: StorageboxDetailsModel = await this.apiService.createStoragebox(this.storagebox);
+        await this.router.navigate(['storagebox', result.id]);
+        await this.refresh();
+      }
+      catch (err) {
+        this.errorMessage = `Failed to create a new container: ` + err;
+      }
     } else {
-      await this.apiService.updateStoragebox(this.storagebox);
-      await this.refresh();
+      try {
+        await this.apiService.updateStoragebox(this.storagebox);
+        await this.refresh();
+      }
+      catch (err) {
+        this.errorMessage = `Failed to update container: ` + err;
+      }
     }
     window.scrollTo({ top: 0 });
   }
