@@ -17,7 +17,6 @@ import { StorageboxHeaderModel } from '../../models/storagebox-header-model';
   styleUrl: './filament-editor.component.less'
 })
 export class FilamentEditorComponent implements OnInit {
-
   photoUri?: string;
   filament?: FilamentDetailsModel;
   errorMessage?: string;
@@ -104,4 +103,10 @@ export class FilamentEditorComponent implements OnInit {
     }
   }
 
+  async delete(): Promise<void> {
+    if (confirm(`Are you sure you want to delete this filament roll?`)) {
+      await this.apiService.deleteFilament(this.filament!.id);
+      this.router.navigate(['filament']);
+    }
+  }
 }

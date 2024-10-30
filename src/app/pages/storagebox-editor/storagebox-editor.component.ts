@@ -86,4 +86,10 @@ export class StorageboxEditorComponent implements OnInit {
     }
   }
 
+  async delete(): Promise<void> {
+    if (confirm(`Are you sure you want to delete this container?`)) {
+      await this.apiService.deleteStoragebox(this.storagebox!.id);
+      this.router.navigate(['storagebox']);
+    }
+  }
 }

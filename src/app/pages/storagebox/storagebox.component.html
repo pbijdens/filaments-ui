@@ -23,7 +23,7 @@
         <div class="storageboxes-list">
             @for (storagebox of storageboxes; track storagebox) {
             <div class="storagebox-entry" [routerLink]="[ storagebox.id ]">
-                <div class="name">{{storagebox.name}}</div>
+                <div class="description">{{storagebox.name}}</div>
                 <div class="image">
                     <img *ngIf="storagebox.photo; else nophoto" [attr.src]="storagebox.photo">
                     <ng-template #nophoto>

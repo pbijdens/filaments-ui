@@ -12,7 +12,7 @@ import { StorageboxHeaderModel } from '../models/storagebox-header-model';
   providedIn: 'root'
 })
 export class ApiService {
-  
+
   constructor(private authorizationService: AuthorizationService) { }
 
   get url(): String {
@@ -197,7 +197,7 @@ export class ApiService {
   }
 
   // --------------------------------------------------------------------------
- 
+
   async getStorageboxes(): Promise<StorageboxHeaderModel[]> {
     const data = await fetch(`${this.url}/storagebox`, {
       method: 'GET',
@@ -252,5 +252,24 @@ export class ApiService {
     if (data.status != 200) throw "API Failure";
     return await data.json();
   }
+
+  async deleteFilament(id: number): Promise<void> {
+    const data = await fetch(`${this.url}/filament/${id}`, {
+      method: 'DELETE',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status != 200) throw "API Failure";
+    return await data.json();
+  }
+
+  async deleteStoragebox(id: number): Promise<void> {
+    const data = await fetch(`${this.url}/storagebox/${id}`, {
+      method: 'DELETE',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status != 200) throw "API Failure";
+    return await data.json();
+  }
+
 
 }

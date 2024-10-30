@@ -4,6 +4,7 @@
             <div class="navbar-default">
                 <ul>
                     <app-control-up-button></app-control-up-button>
+                    <button class="cs-button danger" (click)="delete()" *ngIf="this.storagebox && this.storagebox.id > 0">Delete</button>
                 </ul>
             </div>
         </div>
@@ -62,7 +63,7 @@
                 </div>
             </div>
             <div class="buttons">
-                <button type="submit" class="cs-button w-full" (click)="save()">Save</button>
+                <button type="submit" class="cs-button save-button" (click)="save()">Save</button>
             </div>
         </form>
     </div>
