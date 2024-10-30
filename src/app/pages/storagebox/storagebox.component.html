@@ -7,7 +7,7 @@
                     <li>
                         <!-- *ngIf="authorizationService.user$ | async" -->
                         <button [routerLink]="[ '-1' ]" class="cs-button" aria-current="page">Add an additional
-                            storagebox</button>
+                            container</button>
                     </li>
                 </ul>
             </div>
@@ -43,9 +43,7 @@
 
     <ng-template #nostorageboxes>
         <div class="cs-card">
-            <p>You did not register any storageboxes yet. Click <a [routerLink]="['-1']">here</a> to add your first roll
-                of
-                storagebox.</p>
+            <p>You did not register any containers yet. Click <a [routerLink]="['-1']">here</a> to add one.</p>
         </div>
     </ng-template>
 

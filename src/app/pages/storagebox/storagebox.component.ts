@@ -33,7 +33,7 @@ export class StorageboxComponent implements OnInit {
     try {
       this.storageboxes = await this.apiService.getStorageboxes();
 
-      this.navbarService.setPageTitle(`${this.storageboxes.length} storage box(es)`);
+      this.navbarService.setPageTitle(`Manage containers`);
     } catch (err) {
       this.errorMessage = `Failed to fetch data. Error: ${err}`;
     }

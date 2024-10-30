@@ -33,7 +33,7 @@ export class FilamentComponent implements OnInit {
     try {
       this.filaments = await this.apiService.getFilaments();
 
-      this.navbarService.setPageTitle(`${this.filaments.length} filament(s)`);
+      this.navbarService.setPageTitle(`Manage filaments`);
     } catch (err) {
       this.errorMessage = `Failed to fetch filaments. Error: ${err}`;
     }

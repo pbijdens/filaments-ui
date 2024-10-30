@@ -42,7 +42,7 @@ export class StorageboxEditorComponent implements OnInit {
         };
       }
 
-      this.navbarService.setPageTitle(storageboxId == -1 ? `Register a roll of storagebox` : `Edit ${this.storagebox.name}`);
+      this.navbarService.setPageTitle(storageboxId == -1 ? `New container` : `Edit ${this.storagebox.name}`);
     } catch (err) {
       this.errorMessage = `Failed to fetch storageboxes. Error: ${err}`;
     }
@@ -56,7 +56,7 @@ export class StorageboxEditorComponent implements OnInit {
     }
     if (this.storagebox.id < 0) {
       const result: StorageboxDetailsModel = await this.apiService.createStoragebox(this.storagebox);
-      this.router.navigate(['..', result.id]);
+      this.router.navigate(['storagebox', result.id]);
     } else {
       await this.apiService.updateStoragebox(this.storagebox);
       await this.refresh();
@@ -71,6 +71,7 @@ export class StorageboxEditorComponent implements OnInit {
     if (file) {
       await this.apiService.uploadStorageboxPhoto(this.storagebox?.id, file);
       this.photoUri = await this.apiService.getStorageboxPhotoUri(`${this.storagebox?.id}`) + `?rnd=${Math.random()}`
+      window.scrollTo({ top: 0 });
     }
   }
 

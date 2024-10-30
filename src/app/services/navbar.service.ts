@@ -14,7 +14,8 @@ export class NavbarService {
   constructor() { }
 
   async setPageTitle(prefix: string) {
-      this.title$.next(`${prefix} - ${this.DefaultPageTitle}`);
+      // this.title$.next(`${prefix} - ${this.DefaultPageTitle}`);
+      this.title$.next(`${prefix}`);
   }
 
 }

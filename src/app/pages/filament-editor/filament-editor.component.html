@@ -36,18 +36,20 @@
         <form class="filament-form" id="filament-form">
             <div class="fields">
 
-                <div class="cs-input-block">
+                <div class="cs-input-block" *ngIf="storageboxes && storageboxes.length > 0; else noStorageboxes">
                     <label for="storageboxSelection">
-                        Current storage box
+                        Container
                     </label>
 
-                    <input [ngModelOptions]="{standalone: true}" class="cs-input-text" list="id-storagebox"
-                        [(ngModel)]="filament.storageBoxName" value="{{filament.storagebox?.name ?? 'Select box'}}"
-                        (ngModelChange)="onChangeBox()" id="storageboxSelection">
-                    <datalist id="id-storagebox">
-                        <option *ngFor="let box of storageboxes" [value]="box.name">{{box.name}}</option>
-                    </datalist>
+                    <select id="storageboxSelection" title="Pick a container" #classTemplate
+                        (change)="onChangeBox($event, classTemplate.value)" [(ngModel)]="filament.storagebox"
+                        [ngModelOptions]="{standalone: true}" class="cs-input-text" placeholder="Pick a container">
+                        <option *ngFor="let c of storageboxes" [ngValue]="c">{{c.name}}</option>
+                    </select>
                 </div>
+                <ng-template #noStorageboxes>
+                    <p>You have no containers defined. Click <a [routerLink]="['..', 'storagebox', '-1']">here</a> to add one.</p>
+                </ng-template>
 
                 <div class="cs-input-block">
                     <label for="description">
@@ -112,7 +114,7 @@
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="kind" type="text"
                             autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
-                            placeholder="Current weight" [(ngModel)]="filament.kind">
+                            placeholder="Kind" [(ngModel)]="filament.kind">
                     </div>
                     <div class="cs-input-block">
                         <label for="pricePerKG">
@@ -120,7 +122,7 @@
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="pricePerKG" type="number"
                             autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
-                            placeholder="Current weight" [(ngModel)]="filament.pricePerKG">
+                            placeholder="Price per KG" [(ngModel)]="filament.pricePerKG">
                     </div>
                 </div>
 

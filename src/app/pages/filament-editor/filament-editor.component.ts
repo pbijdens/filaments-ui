@@ -35,19 +35,21 @@ export class FilamentEditorComponent implements OnInit {
     delete this.errorMessage;
     try {
       const filamentId = this.activatedRoute.snapshot.params['filamentId'] as number;
+      this.storageboxes = [<StorageboxHeaderModel>{id: -1, name: 'Not selected'}, ...((await this.apiService.getStorageboxes()) ?? [])];
       if (filamentId > 0) {
         this.filament = await this.apiService.getFilament(`${filamentId}`);
         this.photoUri = await this.apiService.getFilamentPhotoUri(`${filamentId}`);
-        this.storageboxes = await this.apiService.getStorageboxes();
+        this.filament.storagebox = this.storageboxes.find((c) => c.id == this.filament?.storageBoxID);
       } else {
         this.filament = <FilamentDetailsModel>{
           id: -1,
           firstAdded: new Date().toISOString().split('T')[0],
           lastUpdated: new Date().toISOString().split('T')[0],
         };
+        this.filament.storagebox = this.storageboxes.find((c) => c);
       }
 
-      this.navbarService.setPageTitle(filamentId == -1 ? `Register a roll of filament` : `Edit ${this.filament.description}`);
+      this.navbarService.setPageTitle(filamentId == -1 ? `New roll of filament` : `Edit ${this.filament.description}`);
     } catch (err) {
       this.errorMessage = `Failed to fetch filaments. Error: ${err}`;
     }
@@ -61,7 +63,7 @@ export class FilamentEditorComponent implements OnInit {
     }
     if (this.filament.id < 0) {
       const result: FilamentDetailsModel = await this.apiService.createFilament(this.filament);
-      this.router.navigate(['..', result.id]);
+      this.router.navigate(['filament', result.id]);
     } else {
       await this.apiService.updateFilament(this.filament);
       await this.refresh();
@@ -76,18 +78,18 @@ export class FilamentEditorComponent implements OnInit {
     if (file) {
       await this.apiService.uploadFilamentPhoto(this.filament?.id, file);
       this.photoUri = await this.apiService.getFilamentPhotoUri(`${this.filament?.id}`) + `?rnd=${Math.random()}`
+      window.scrollTo({ top: 0 });
     }
   }
 
-  onChangeBox() {
+  onChangeBox($event : any, value: any) {
     if (this.filament) {
-      let box = this.storageboxes.find((c) => c.name == this.filament!.storageBoxName);
+      let box = this.storageboxes.find((c) => c.id == this.filament?.storagebox?.id);
       if (box) {
         this.filament!.storagebox = box;
         this.filament!.storageBoxName = box!.name;
         this.filament!.storageBoxID = box!.id;
       }
-      console.log(box)
     }
   }
 
