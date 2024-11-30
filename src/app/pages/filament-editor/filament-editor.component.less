@@ -1,7 +1,39 @@
-.filament-photo {
-    @apply w-full min-w-full;
-}
+// .filament-photo {
+//     @apply w-full min-w-full;
+// }
 
 .save-button {
-    @apply w-full m-0; 
- }
+    @apply w-full m-0;
+}
+
+.full-screen-photo {
+    @apply fixed top-0 left-0 bg-backdrop bg-opacity-100 overflow-y-hidden h-full w-full p-0 z-50;
+
+    img {
+        @apply object-scale-down max-h-full drop-shadow-md rounded-md m-auto;
+    }
+}
+
+.photo-card {
+    @apply flex flex-row w-full;
+
+    .filament-photo {
+        @apply relative object-scale-down max-h-full drop-shadow-md rounded-md m-auto;
+    }
+
+    .zoom {
+        @apply absolute bottom-1 right-1;
+    }
+
+    >form {
+        @apply p-1;
+    }
+}
+
+.cs-file-input {
+    @apply file:px-4 file:py-1 file:m-0 file:me-2;
+    @apply file:bg-accenta file:text-accentafg file:border-transparent file:hover:border-accentb file:border file:hover:text-accentafg-800;
+    @apply file:font-medium file:rounded-full file:text-sm file:text-center;
+    @apply file:focus:outline-none file:focus:ring-1 file:focus:ring-accenta-700;
+    @apply file:cursor-pointer;    
+}

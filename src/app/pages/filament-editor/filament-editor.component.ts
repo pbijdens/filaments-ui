@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ControlUpButtonComponent } from '../../shared/control-up-button/control-up-button.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -16,14 +16,19 @@ import { StorageboxHeaderModel } from '../../models/storagebox-header-model';
   templateUrl: './filament-editor.component.html',
   styleUrl: './filament-editor.component.less'
 })
-export class FilamentEditorComponent implements OnInit {
+export class FilamentEditorComponent implements OnInit, OnChanges {
   photoUri?: string;
   filament?: FilamentDetailsModel;
   errorMessage?: string;
   storageboxes: StorageboxHeaderModel[] = [];
+  showPhotoDialog = false;
 
   constructor(public apiService: ApiService, public authorizationService: AuthorizationService, public activatedRoute: ActivatedRoute, public navbarService: NavbarService, public router: Router) {
     // TODO: Read sort oorder etc from current route.
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.error('...', changes);
   }
 
   async ngOnInit(): Promise<void> {
@@ -88,7 +93,7 @@ export class FilamentEditorComponent implements OnInit {
     if (file) {
       await this.apiService.uploadFilamentPhoto(this.filament?.id, file);
       this.photoUri = await this.apiService.getFilamentPhotoUri(`${this.filament?.id}`) + `?rnd=${Math.random()}`
-      window.scrollTo({ top: 0 });
+      // window.scrollTo({ top: 0 });
     }
   }
 
