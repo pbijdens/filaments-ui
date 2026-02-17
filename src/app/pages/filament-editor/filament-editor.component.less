@@ -18,6 +18,7 @@
     @apply flex flex-row w-full;
 
     .filament-photo {
+        @apply min-w-48 flex-1;
         @apply relative object-scale-down max-h-full drop-shadow-md rounded-md m-auto;
     }
 
@@ -26,7 +27,23 @@
     }
 
     >form {
+        @apply flex-1;
         @apply p-1;
+
+        .cs-button {
+            @apply text-white;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
     }
 }
 
