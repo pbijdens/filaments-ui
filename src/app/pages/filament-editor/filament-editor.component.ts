@@ -22,6 +22,7 @@ export class FilamentEditorComponent implements OnInit, OnChanges {
   errorMessage?: string;
   storageboxes: StorageboxHeaderModel[] = [];
   showPhotoDialog = false;
+  selectedTab: string = 'summary';
 
   constructor(public apiService: ApiService, public authorizationService: AuthorizationService, public activatedRoute: ActivatedRoute, public navbarService: NavbarService, public router: Router) {
     // TODO: Read sort oorder etc from current route.

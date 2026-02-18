@@ -17,9 +17,16 @@
 .photo-card {
     @apply flex flex-row w-full;
 
+    .filament-photo-div {
+        @apply w-48 h-48 relative drop-shadow-md rounded-md m-auto flex items-center justify-center;
+        
+        > div {
+            @apply h-full w-full flex items-center justify-center;
+        }
+    }
+
     .filament-photo {
-        @apply min-w-48 flex-1;
-        @apply relative object-scale-down max-h-full drop-shadow-md rounded-md m-auto;
+        @apply object-scale-down max-h-full max-w-full;
     }
 
     .zoom {

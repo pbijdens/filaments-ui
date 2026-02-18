@@ -26,11 +26,9 @@
 
     <ng-container *ngIf="!showPhotoDialog">
         <div class="cs-card photo-card" *ngIf="filament && filament.id >= 0">
-            <div class="filament-photo bg-black">
-                <div class="flex flex-col">
-                    <div class="flex-grow"></div>
+            <div class="filament-photo-div bg-slate-300">
+                <div>
                     <img class="filament-photo" [attr.src]="photoUri" *ngIf="photoUri">
-                    <div class="flex-grow"></div>
                 </div>
                 <button class="cs-button zoom" (click)="showPhotoDialog = true">Zoom</button>
             </div>
@@ -49,23 +47,104 @@
                     <label for="photo" class="cs-button">
                         Upload a new photo
                     </label>
-                    <input class="hidden" id="photo" type="file" autocomplete="off"
-                        spellcheck="false" autocorrect="off" autocapitalize="off"
-                        (change)="onUploadFile($event)">
+                    <input class="hidden" id="photo" type="file" autocomplete="off" spellcheck="false" autocorrect="off"
+                        autocapitalize="off" (change)="onUploadFile($event)">
                 </div>
             </form>
         </div>
-                <div class="buttons">
-                    <button type="submit" class="cs-button save-button" (click)="save()">Save</button>
-                </div>            
+        <div class="buttons">
+            <button type="submit" class="cs-button save-button" (click)="save()">Save</button>
+        </div>
 
         <div class="cs-card" *ngIf="filament && filament.id < 0">
             <p>You must save the filament once before you can upload a photo.</p>
         </div>
 
-        <div class="cs-card" *ngIf="filament; else noFilament">
-            <form class="filament-form" id="filament-form">
-                <div class="fields">
+        <div class="cs-tab-box" *ngIf="filament; else noFilament">
+            <div class="cs-tab-buttons">
+                <button class="cs-tab-button" [class.active]="selectedTab === 'summary'" 
+                        [class.inactive]="selectedTab !== 'summary'" 
+                        (click)="selectedTab = 'summary'">
+                    Summary
+                </button>
+                <button class="cs-tab-button" [class.active]="selectedTab === 'details'" 
+                        [class.inactive]="selectedTab !== 'details'" 
+                        (click)="selectedTab = 'details'">
+                    Details
+                </button>
+            </div>
+
+            <div class="cs-tab-content" *ngIf="selectedTab === 'summary'">
+                <div class="cs-card">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Brand</span>
+                            <span class="text-base">{{filament.brand || 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Kind</span>
+                            <span class="text-base">{{filament.kind || 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Description</span>
+                            <span class="text-base">{{filament.description || 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Container</span>
+                            <span class="text-base">{{filament.storagebox?.name || 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Current Weight</span>
+                            <span class="text-base">{{filament.weight ? filament.weight + ' g' : 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Initial Weight</span>
+                            <span class="text-base">{{filament.initialWeight ? filament.initialWeight + ' g' : 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Price per KG</span>
+                            <span class="text-base">{{filament.pricePerKG ? '€' + filament.pricePerKG : 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Remaining</span>
+                            <span class="text-base">{{filament.weight && filament.initialWeight ? ((filament.weight / filament.initialWeight * 100).toFixed(1) + '%') : 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Color 1</span>
+                            <div class="flex items-center gap-2">
+                                <div *ngIf="filament.color1" class="w-6 h-6 rounded border border-gray-300" 
+                                     [style.background-color]="filament.color1"></div>
+                                <span class="text-sm">{{filament.color1 || 'N/A'}}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Color 2</span>
+                            <div class="flex items-center gap-2">
+                                <div *ngIf="filament.color2" class="w-6 h-6 rounded border border-gray-300" 
+                                     [style.background-color]="filament.color2"></div>
+                                <span class="text-sm">{{filament.color2 || 'N/A'}}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">First Added</span>
+                            <span class="text-base">{{filament.firstAdded || 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm text-gray-500">Last Updated</span>
+                            <span class="text-base">{{filament.lastUpdated || 'N/A'}}</span>
+                        </div>
+                        <div class="flex flex-col col-span-2 md:col-span-4" *ngIf="filament.notes">
+                            <span class="font-semibold text-sm text-gray-500">Notes</span>
+                            <span class="text-base whitespace-pre-wrap">{{filament.notes}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cs-tab-content" *ngIf="selectedTab === 'details'">
+                <div class="cs-card">
+                    <form class="filament-form" id="filament-form">
+                        <div class="fields">
 
                     <div class="columns-1 md:columns-3">
                         <div class="cs-input-block">
@@ -185,6 +264,8 @@
                     <button type="submit" class="cs-button save-button" (click)="save()">Save</button>
                 </div>
             </form>
+                </div>
+            </div>
         </div>
     </ng-container>
 
